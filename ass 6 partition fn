@@ -1,0 +1,469 @@
+q1 partition fn for 
+maxwell boltzmann , fermi dirac , bose einstein 
+plot partion fn vs temp
+internal energy vs temp
+entropy vs temp
+specific heat vs temp
+prob of microstate vs temp 
+------E1=0; E2=0.05
+clc
+clf
+clear
+funcprot(0)
+E1=0
+E2=0.01
+T=linspace(1,2000,2000)
+K=8.61*10^(-5)
+n=2000
+for i=1:2000
+b(i)=1/(K*T(i))
+//For MB
+Zmb(i)= (%e^(-2*b(i)*E1))+(2*%e^(-b(i)*(E1+E2)))+(%e^(-2*b(i)*E2))
+Fmb(i)=-K*T(i)*log(Zmb(i))
+Pmb1(i)=((%e^(-b(i)*E1))/Zmb(i))
+Pmb2(i)=((%e^(-b(i)*E2))/Zmb(i))
+//For BE
+Zbe(i)= (%e^(-2*b(i)*E1))+(%e^(-b(i)*(E1+E2)))+(%e^(-2*b(i)*E2))
+Fbe(i)=-K*T(i)*log(Zbe(i))
+Pbe1(i)=((%e^(-b(i)*E1))/Zbe(i))
+Pbe2(i)=((%e^(-b(i)*E2))/Zbe(i))
+// For FD
+Zfd(i)=%e^(-b(i)*(E1+E2))
+Ffd(i)=-K*T(i)*log(Zfd(i))
+Pfd1(i)=((%e^(-b(i)*E1))/Zfd(i))
+Pfd2(i)=((%e^(-b(i)*E2))/Zfd(i))
+end
+A=zeros(n,n)
+for i=2:n-1
+A(i,[i-1:i+1])=[-1,0,1]
+end
+h=T(2)-T(1)
+Smb=-(A*Fmb)/(2*h)
+Sbe=-(A*Fbe)/(2*h)
+Sfd=-(A*Ffd)/(2*h)
+B=zeros(n,n)
+for i =1:2000
+Umb(i)=Fmb(i)+(T(i)*Smb(i))
+Ube(i)=Fbe(i)+(T(i)*Sbe(i))
+Ufd(i)=Ffd(i)+(T(i)*Sfd(i))
+end
+for i=3:n-2
+B(i,[i-1:i+1])=[-1,0,1]
+end
+Cvmb=(B*Umb)/(2*h)
+Cvbe=(B*Ube)/(2*h)
+Cvfd=(B*Ufd)/(2*h)
+//for maxwell boltzmann
+subplot(3,2,1)
+plot(T',Zmb,'b')
+xlabel("Temperature---->")
+ylabel("Partition Function--->")
+xgrid
+subplot(3,2,2)
+plot(T',Fmb,'b')
+xlabel("Temperature---->")
+ylabel("HelmHoltz Free Enenrgy--->")
+replot([0 -.4 2000 .02])
+xgrid
+subplot(3,2,3)
+plot(T',Smb,)
+xlabel("Temperature---->")
+ylabel("Entropy--->")
+xgrid
+subplot(3,2,4)
+plot(T',Umb,'b')
+xlabel("Temperature---->")
+ylabel("Internal Eneregy --->")
+replot([0 0 2000 0.01])
+xgrid
+subplot(3,2,5)
+plot(T',Cvmb,'b')
+xlabel("Temperature---->")
+ylabel("Specific Heat --->")
+xgrid
+subplot(3,2,6)
+plot(T',Pmb1,'r')
+plot(T',Pmb2,'b')
+xlabel("Temperature---->")
+ylabel("Probability Distribution --->")
+xgrid
+//for bose-einstein
+subplot(3,2,1)
+plot(T',Zbe,'b')
+xlabel("Temperature---->")
+ylabel("Partition Function--->")
+xgrid
+subplot(3,2,2)
+plot(T',Fbe,'b')
+xlabel("Temperature---->")
+ylabel("HelmHoltz Free Enenrgy--->")
+replot([0 -.25 2000 .02])
+xgrid
+subplot(3,2,3)
+plot(T',Sbe,)
+xlabel("Temperature---->")
+ylabel("Entropy--->")
+xgrid
+subplot(3,2,4)
+plot(T',Ube,'b')
+xlabel("Temperature---->")
+ylabel("Internal Eneregy --->")
+replot([0 0 2000 0.01])
+xgrid
+subplot(3,2,5)
+plot(T',Cvbe,'b')
+xlabel("Temperature---->")
+ylabel("Specific Heat --->")
+xgrid
+subplot(3,2,6)
+plot(T',Pbe1,'r')
+plot(T',Pbe2,'b')
+xlabel("Temperature---->")
+ylabel("Probability Distribution --->")
+xgrid
+//Fermi Dirac
+subplot(3,2,1)
+plot(T',Zfd,'b')
+xlabel("Temperature---->")
+ylabel("Partition Function--->")
+xgrid
+subplot(3,2,2)
+plot(T',Ffd,'b')
+xlabel("Temperature---->")
+ylabel("HelmHoltz Free Enenrgy--->")
+replot([0 -.17 2000 .02])
+xgrid
+subplot(3,2,3)
+plot(T',Sfd,)
+xlabel("Temperature---->")
+ylabel("Entropy--->")
+xgrid
+subplot(3,2,4)
+plot(T',Ufd,'b')
+xlabel("Temperature---->")
+ylabel("Internal Eneregy --->")
+replot([0 0 2000 .005])
+xgrid
+subplot(3,2,5)
+plot(T',Cvfd,'b')
+xlabel("Temperature---->")
+ylabel("Specific Heat --->")
+xgrid
+subplot(3,2,6)
+plot(T',Pfd1,'r')
+plot(T',Pfd2,'b')
+xlabel("Temperature---->")
+ylabel("Probability Distribution --->")
+xgrid
+--------------------------------------------------------------------------------------
+q2 e1=0.01 ; e2=0.05
+clc
+clf
+clear
+funcprot(0)
+E1=0.01 //ev
+E2=0.05 //ev
+T=linspace(1,2000,2000)
+K=8.61*10^(-5)
+n=2000
+for i=1:2000
+b(i)=1/(K*T(i))
+//For MB
+Zmb(i)= (%e^(-2*b(i)*E1))+(2*%e^(-b(i)*(E1+E2)))+(%e^(-2*b(i)*E2))
+Fmb(i)=-K*T(i)*log(Zmb(i))
+Pmb1(i)=((%e^(-b(i)*E1))/Zmb(i))
+Pmb2(i)=((%e^(-b(i)*E2))/Zmb(i))
+//For BE
+Zbe(i)= (%e^(-2*b(i)*E1))+(%e^(-b(i)*(E1+E2)))+(%e^(-2*b(i)*E2))
+Fbe(i)=-K*T(i)*log(Zbe(i))
+Pbe1(i)=((%e^(-b(i)*E1))/Zbe(i))
+Pbe2(i)=((%e^(-b(i)*E2))/Zbe(i))
+// For FD
+Zfd(i)=%e^(-b(i)*(E1+E2))
+Ffd(i)=-K*T(i)*log(Zfd(i))
+Pfd1(i)=((%e^(-b(i)*E1))/Zfd(i))
+Pfd2(i)=((%e^(-b(i)*E2))/Zfd(i))
+end
+A=zeros(n,n)
+for i=2:n-1
+A(i,[i-1:i+1])=[-1,0,1]
+end
+h=T(2)-T(1)
+Smb=-(A*Fmb)/(2*h)
+Sbe=-(A*Fbe)/(2*h)
+Sfd=-(A*Ffd)/(2*h)
+B=zeros(n,n)
+for i =1:2000
+Umb(i)=Fmb(i)+(T(i)*Smb(i))
+Ube(i)=Fbe(i)+(T(i)*Sbe(i))
+Ufd(i)=Ffd(i)+(T(i)*Sfd(i))
+end
+for i=3:n-2
+B(i,[i-1:i+1])=[-1,0,1]
+end
+Cvmb=(B*Umb)/(2*h)
+Cvbe=(B*Ube)/(2*h)
+Cvfd=(B*Ufd)/(2*h)
+//for maxwell boltzmann
+subplot(3,2,1)
+plot(T',Zmb,'b')
+xlabel("Temperature---->")
+ylabel("Partition Function--->")
+xgrid
+subplot(3,2,2)
+plot(T',Fmb,'b')
+xlabel("Temperature---->")
+ylabel("HelmHoltz Free Enenrgy--->")
+xgrid
+subplot(3,2,3)
+plot(T',Smb,)
+xlabel("Temperature---->")
+ylabel("Entropy--->")
+xgrid
+subplot(3,2,4)
+plot(T',Umb,'b')
+xlabel("Temperature---->")
+ylabel("Internal Eneregy --->")
+replot([0 0 2000 0.06])
+xgrid
+subplot(3,2,5)
+plot(T',Cvmb,'b')
+xlabel("Temperature---->")
+ylabel("Specific Heat --->")
+xgrid
+subplot(3,2,6)
+plot(T',Pmb1,'r')
+plot(T',Pmb2,'b')
+xlabel("Temperature---->")
+ylabel("Probability Distribution --->")
+replot([0 0 2000 1])
+xgrid
+//for bose-einstein
+subplot(3,2,1)
+plot(T',Zbe,'b')
+xlabel("Temperature---->")
+ylabel("Partition Function--->")
+xgrid
+subplot(3,2,2)
+plot(T',Fbe,'b')
+xlabel("Temperature---->")
+ylabel("HelmHoltz Free Enenrgy--->")
+replot([0 -.25 2000 .02])
+xgrid
+subplot(3,2,3)
+plot(T',Sbe,)
+xlabel("Temperature---->")
+ylabel("Entropy--->")
+xgrid
+subplot(3,2,4)
+plot(T',Ube,'b')
+xlabel("Temperature---->")
+ylabel("Internal Eneregy --->")
+replot([0 0 2000 .06])
+xgrid
+subplot(3,2,5)
+plot(T',Cvbe,'b')
+xlabel("Temperature---->")
+ylabel("Specific Heat --->")
+xgrid
+subplot(3,2,6)
+plot(T',Pbe1,'r')
+plot(T',Pbe2,'b')
+xlabel("Temperature---->")
+ylabel("Probability Distribution --->")
+replot([0 0 2000 1])
+xgrid
+//Fermi Dirac
+subplot(3,2,1)
+plot(T',Zfd,'b')
+xlabel("Temperature---->")
+ylabel("Partition Function--->")
+xgrid
+subplot(3,2,2)
+plot(T',Ffd,'b')
+xlabel("Temperature---->")
+ylabel("HelmHoltz Free Enenrgy--->")
+replot([0 -.1 2000 .02])
+xgrid
+subplot(3,2,3)
+plot(T',Sfd,)
+xlabel("Temperature---->")
+ylabel("Entropy--->")
+xgrid
+subplot(3,2,4)
+plot(T',Ufd,'b')
+xlabel("Temperature---->")
+ylabel("Internal Eneregy --->")
+replot([0 0 2000 .026])
+xgrid
+subplot(3,2,5)
+plot(T',Cvfd,'b')
+xlabel("Temperature---->")
+ylabel("Specific Heat --->")
+xgrid
+subplot(3,2,6)
+plot(T',Pfd1,'r')
+plot(T',Pfd2,'b')
+xlabel("Temperature---->")
+ylabel("Probability Distribution --->")
+xgrid
+
+
+-------------------------------------------------------------------------------------
+q3 e1=0 ; e2= 0.01 ; e3= 0.05
+clc
+clf
+clear
+funcprot(0)
+E1=0
+E2=0.01
+E3=0.05
+T=linspace(1,2000,2000)
+K=8.61*10^(-5)
+n=2000
+for i=1:2000
+b(i)=1/(K*T(i))
+//For MB
+Zmb(i)= (%e^(-2*b(i)*E1))+(2*%e^(-b(i)*(E1+E2)))+(%e^(-2*b(i)*E2))+(2*%e^(-b(i)*(E1+E3)))+(%e^(-2*b(i)*E3))+(2*%e^(-b(i)*(E3+E2)))
+Fmb(i)=-K*T(i)*log(Zmb(i))
+Pmb1(i)=((%e^(-b(i)*E1))/Zmb(i))
+Pmb2(i)=((%e^(-b(i)*E2))/Zmb(i))
+Pmb3(i)=((%e^(-b(i)*E3))/Zmb(i))
+//For BE
+Zbe(i)= (%e^(-2*b(i)*E1))+(%e^(-b(i)*(E1+E2)))+(%e^(-2*b(i)*E2))+(%e^(-2*b(i)*E3))+(%e^(-b(i)*(E1+E3)))+(%e^(-b(i)*(E3+E2)))
+Fbe(i)=-K*T(i)*log(Zbe(i))
+Pbe1(i)=((%e^(-b(i)*E2))/Zmb(i))
+Pbe2(i)=((%e^(-b(i)*E1))/Zmb(i))
+Pbe3(i)=((%e^(-b(i)*E3))/Zmb(i))
+// For FD
+Zfd(i)= %e^(-b(i)*(E1+E2))+%e^(-b(i)*(E1+E3))+%e^(-b(i)*(E3+E2))
+Ffd(i)=-K*T(i)*log(Zfd(i))
+Pfd1(i)=((%e^(-b(i)*E2))/Zmb(i))
+Pfd2(i)=((%e^(-b(i)*E1))/Zmb(i))
+Pfd3(i)=((%e^(-b(i)*E3))/Zmb(i))
+end
+h=T(2)-T(1)
+A=zeros(n,n)
+for i=2:n-1
+A(i,[i-1:i+1])=[-1,0,1]
+end
+Smb=-(A*Fmb)/(2*h)
+Sbe=-(A*Fbe)/(2*h)
+Sfd=-(A*Ffd)/(2*h)
+B=zeros(n,n)
+for i =1:2000
+Umb(i)=Fmb(i)+(T(i)*Smb(i))
+Ube(i)=Fbe(i)+(T(i)*Sbe(i))
+Ufd(i)=Ffd(i)+(T(i)*Sfd(i))
+end
+for i=3:n-2
+B(i,[i-1:i+1])=[-1,0,1]
+end
+Cvmb=(B*Umb)/(2*h)
+Cvbe=(B*Ube)/(2*h)
+Cvfd=(B*Ufd)/(2*h)
+//for maxwell boltzmann
+subplot(3,2,1)
+plot(T',Zmb,'b')
+xlabel("Temperature---->")
+ylabel("Partition Function--->")
+xgrid
+subplot(3,2,2)
+plot(T',Fmb,'b')
+xlabel("Temperature---->")
+ylabel("HelmHoltz Free Enenrgy--->")
+replot([0 -.4 2000 .02])
+xgrid
+subplot(3,2,3)
+plot(T',Smb,)
+xlabel("Temperature---->")
+ylabel("Entropy--->")
+xgrid
+subplot(3,2,4)
+plot(T',Umb,'b')
+xlabel("Temperature---->")
+ylabel("Internal Eneregy --->")
+replot([0 0 2000 0.04])
+xgrid
+subplot(3,2,5)
+plot(T',Cvmb,'b')
+xlabel("Temperature---->")
+ylabel("Specific Heat --->")
+xgrid
+subplot(3,2,6)
+plot(T',Pmb1,'r')
+plot(T',Pmb2,'b')
+plot(T',Pmb3,'g')
+xlabel("Temperature---->")
+ylabel("Probability Distribution --->")
+xgrid
+//for bose-einstein
+subplot(3,2,1)
+plot(T',Zbe,'b')
+xlabel("Temperature---->")
+ylabel("Partition Function--->")
+xgrid
+subplot(3,2,2)
+plot(T',Fbe,'b')
+xlabel("Temperature---->")
+ylabel("Helmholtz Free Enenrgy--->")
+replot([0 -.25 2000 .06])
+xgrid
+subplot(3,2,3)
+plot(T',Sbe,)
+xlabel("Temperature---->")
+ylabel("Entropy--->")
+xgrid
+subplot(3,2,4)
+plot(T',Ube,'b')
+xlabel("Temperature---->")
+ylabel("Internal Eneregy --->")
+replot([0 0 2000 0.04])
+xgrid
+subplot(3,2,5)
+plot(T',Cvbe,'b')
+xlabel("Temperature---->")
+ylabel("Specific Heat --->")
+xgrid
+subplot(3,2,6)
+plot(T',Pbe1,'r')
+plot(T',Pbe2,'b')
+plot(T',Pbe3,'g')
+xlabel("Temperature---->")
+ylabel("Probability Distribution --->")
+xgrid
+//Fermi Dirac
+subplot(3,2,1)
+plot(T',Zfd,'b')
+xlabel("Temperature---->")
+ylabel("Partition Function--->")
+xgrid
+subplot(3,2,2)
+plot(T',Ffd,'b')
+xlabel("Temperature---->")
+ylabel("HelmHoltz Free Enenrgy--->")
+replot([0 -.26 2000 0])
+xgrid
+subplot(3,2,3)
+plot(T',Sfd,)
+xlabel("Temperature---->")
+ylabel("Entropy--->")
+xgrid
+subplot(3,2,4)
+plot(T',Ufd,'b')
+xlabel("Temperature---->")
+ylabel("Internal Eneregy --->")
+replot([0 0 2000 .03])
+xgrid
+subplot(3,2,5)
+plot(T',Cvfd,'b')
+xlabel("Temperature---->")
+ylabel("Specific Heat --->")
+xgrid
+subplot(3,2,6)
+plot(T',Pfd1,'r')
+plot(T',Pfd2,'b')
+plot(T',Pfd3,'g')
+xlabel("Temperature---->")
+ylabel("Probability Distribution --->")
+xgrid
