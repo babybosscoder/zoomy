@@ -1,0 +1,148 @@
+//q1 part1 plot planks law
+clc
+clear
+x=linspace(1,50000,300)
+hc=1240//eV nm;
+K=8.61*10**(-5)
+for i=1:length(x)
+y(i)=((8*3.14*hc)/(x(i)**5))*(1/(exp(hc/(x(i)*K*300))-1))
+end
+for i=1:length(x)
+z(i)=((8*3.14*hc)/(x(i)**5))*(1/(exp(hc/(x(i)*K*400))-1))
+end
+for i=1:length(x)
+c(i)=((8*3.14*hc)/(x(i)**5))*(1/(exp(hc/(x(i)*K*500))-1))
+end
+plot2d(x',[y,z,c],)
+legends(['300k';'400k';'500k'],[1,2,3],opt=1,font_size=1)
+xgrid
+xlabel("lambda-->")
+ylabel("U(lambda)-->")
+title("Planck''s law")
+-----------------------------------------------------------------------------
+//q1 part2 verify weins disp law 
+clc
+clear
+x=linspace(1,50000,300)
+hc=1240//eV nm;
+K=8.61*10**(-5)
+for i=1:length(x)
+y(i)=((8*3.14*hc)/(x(i)**5))*(1/(exp(hc/(x(i)*K*300))-1))
+end
+for i=1:length(x)
+z(i)=((8*3.14*hc)/(x(i)**5))*(1/(exp(hc/(x(i)*K*400))-1))
+end
+for i=1:length(x)
+c(i)=((8*3.14*hc)/(x(i)**5))*(1/(exp(hc/(x(i)*K*500))-1))
+end
+plot2d(x',[y,z,c],)
+legends(['300k';'400k';'500k'],[1,2,3],opt=1,font_size=1)
+xgrid
+xlabel("lambda(nm)-->")
+ylabel("U(lambda)-->")
+title("Planck''s law")
+-------------------------------------------------------------------------------
+q1 part3 proof stefans law
+clc
+clear
+x=linspace(1,50000,100)
+hc=1240//eV nm;
+K=8.61*10**(-5)
+//for 300k
+for i=1:length(x)
+y(i)=((8*3.14*hc)/(x(i)**5))*(1/(exp(hc/(x(i)*K*300))-1))
+end
+plot(x',y,'r')
+xgrid
+xlabel("lambda(nm)-->")
+ylabel("U(lambda)-->")
+title("Planck''s law")
+function y=f(x)
+y=((8*3.14*hc)/(x**5))*(1/(exp(hc/(x*K*300))-1))
+endfunction
+I_1=intg(1,50000,f)
+//for 400k
+for i=1:length(x)
+z(i)=((8*3.14*hc)/(x(i)**5))*(1/(exp(hc/(x(i)*K*400))-1))
+end
+function y=g(x)
+y=((8*3.14*hc)/(x**5))*(1/(exp(hc/(x*K*400))-1))
+endfunction
+I_2=intg(1,50000,g)
+//for 500k
+for i=1:length(x)
+c(i)=((8*3.14*hc)/(x(i)**5))*(1/(exp(hc/(x(i)*K*500))-1))
+end
+plot2d(x',[y,z,c],)
+legends(['300k';'400k';'500k'],[1,2,3],opt=1,font_size=1)
+xgrid
+xlabel("lambda-->")
+ylabel("U(lambda)-->")
+title("Planck''s law")
+function y=h(x)
+y=((8*3.14*hc)/(x**5))*(1/(exp(hc/(x*K*500))-1))
+endfunction
+I_3=intg(1,50000,h)
+//for verification by stefan's law
+disp("(T_300/T_400)^4 = ",I_1/I_2)
+disp("(T_300/T_500)^4 = ",I_1/I_3)
+disp("(T_400/T_500)^4 = ",I_2/I_3)
+------------------------------------------------------------------------------------------
+q1 code 3
+clc
+clear
+x=linspace(1,50000,300)
+hc=1240//eV nm;
+K=8.61*10**(-5)
+//plack's law
+for i=1:length(x)
+y(i)=((8*3.14*hc)/(x(i)**5))*(1/(exp(hc/(x(i)*K*500))-1))
+end
+plot(x',y)
+xgrid
+xlabel("lambda-->")
+ylabel("U(lambda)-->")
+title("Planck''s law,Stefan law , Releigh law")
+//Releigh's law
+x=linspace(12000,50000,1000)
+for i=1:length(x)
+y(i)=(8*3.14*K*500)/(x(i)**4)
+end
+plot(x',y)
+//wein's law
+x=linspace(1,12000,50000)
+for i=1:length(x)
+y(i)=((8*3.14*hc)/(x(i)**5))*exp(-hc/(x(i)*K*500))
+end
+plot(x',y)
+------------------------------------------------------------------------------------------
+q2 
+clc
+clear
+x=linspace(1,6000,50000)
+hc=1240//eV nm;
+K=8.61*10**(-5)
+for i=1:length(x)
+y(i)=((8*3.14*hc)/(x(i)**5))*(1/(exp(hc/(x(i)*K*5800))-1))
+end
+plot(x',y)
+xgrid
+xlabel("lambda-->")
+ylabel("U(lambda)-->")
+title("Planck''s law")
+function y=f(x)
+y=((8*3.14*hc)/(x**5))*(1/(exp(hc/(x*K*5800))-1))
+endfunction
+I_total=intg(0,6000,f)
+disp("Total radiation = ",I_total)
+I_vis=intg(400,700,f)
+disp("Radition in Visible = ",I_vis)
+I_uv=intg(200,400,f)
+disp("Radiation in UV region = ",I_uv)
+disp("percentage of radition in visible = ",(I_vis/I_total)*100)
+disp("percentage of UV in visible = ",(I_uv/I_total)*100)
+disp("lambda(max)in nm = ",(.0029/5800)*10**9)
+I_lower=intg(0,500,f)
+I_upper=intg(500,6000,f)
+disp("Radiation in lower region = ",(I_lower/I_total)*100)
+disp("Radiation in upper region = ",(I_upper/I_total)*100)
