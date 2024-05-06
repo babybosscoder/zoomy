@@ -1,0 +1,96 @@
+q1 maxwelll boltzmann for diff temp 
+clc
+clf
+clear
+k=8.61*10**(-5) //ev
+T=[300,400,500]
+for j=1:length(T)
+c=['r','b','g']
+x=linspace(0,5*k*T(j),1000) // 0ev -5KT ev
+for i=1:length(x)
+y(i)=1/(exp(x(i)/(k*T(j)))-0)
+end
+plot(x',y,c(j))
+xlabel("Energy-->")
+ylabel("Maxwell function(f)-->")
+end
+xgrid
+legend(["T=300K","T=400K","T=500K"])
+------------------------------------------------------------------------
+q2 fermi dirac distribution fn
+clc
+clf
+clear
+k=8.61*10**(-5) //ev
+T=[0,10,50,500]
+c=['r','b','g','m']
+x=linspace(-0.3,.5,1000)
+for j=1:length(T)
+E_f=.025 //ev
+for i=1:length(x)
+y(i)=1/(exp((x(i)-E_f)/(k*T(j)))+1)
+end
+plot(x',y,c(j))
+end
+xlabel("Energy--->")
+ylabel("Fermi Dirac function")
+title(" E=.025ev")
+xgrid
+legend(["T=0K","T=10K","T=50K","T=500K"])
+/*
+x=linspace(0,14,1000)
+for j=1:length(T)
+E_f=7 //ev
+T=[0,300,500,12000]
+for i=1:length(x)
+y(i)=1/(exp((x(i)-E_f)/(k*T(j)))+1)
+end
+plot(x',y,c(j))
+end
+xgrid
+title(" E=7.0v")
+xlabel("Energy--->")
+ylabel("Fermi Dirac function")
+legend(["T=0K","T=300K","T=500K","T=12000K"])
+---------------------------------------------------------------------------------
+q3 part1 bose einstein 
+clc
+clf
+clear
+k=8.61*10**(-5) //ev
+T=[300,400,500]
+c=['r','b','g','m']
+x=linspace(-.15,-.1,1000);
+for j=1:length(T)
+C_p=-0.15 //ev
+for i=1:length(x)
+y(i)=1/(exp((x(i)-C_p)/(k*T(j)))-1)
+end
+plot(x',y,c(j))
+end
+xlabel("Energy--->")
+ylabel("Bose-Einstein function")
+title("ų=-.15ev")
+xgrid
+legend(["T=300K","T=400K","T=500K"])
+------------------------------------------------------------------------
+q3 part2 bose einsteib t fix
+clc
+clf
+clear
+k=8.61*10**(-5) //ev
+T=300
+mu=[-.15,-.16,-.18]
+c=['r','b','g','m']
+x=linspace(-.15,.15,1000);
+for j=1:length(mu)
+C_p=mu(j) //ev
+for i=1:length(x)
+y(i)=1/(exp((x(i)-C_p)/(k*300))-1)
+end
+plot(x',y,c(j))
+end
+xlabel("Energy--->")
+ylabel("Bose-Einstein function")
+xgrid
+legend(["ų=-.15ev","ų=-.16ev","ų=-.18ev"])
