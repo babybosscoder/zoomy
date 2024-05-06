@@ -1,0 +1,97 @@
+q1 cv/3r vs t
+clc
+clf
+clear
+//Dulong petit law
+x=linspace(1,500,500)
+plot(x',1)
+xlabel("T(K)-->")
+ylabel("Cv/3R-->")
+//Einstein's Law
+T_e=100 //K
+for i=1:length(x)
+y(i)= ((T_e/x(i))^2)*(exp(T_e/x(i))/((exp(T_e/x(i))-1)^2))
+end
+plot(x',y,'r')
+plot(1,1.2)
+//Debye's law
+T_d=100 //K
+function f=g(x)
+f=((x**4)*(exp(x)))/((exp(x)-1)**2)
+endfunction
+for i=1:length(x)
+k1(i)=(T_d/x(i))
+k2(i)=integrate('g(x)','x',0,k1(i))
+k2(i)=3*(x(i)/T_d)**3*k2(i)
+end
+plot(x',k2,'g')
+legends(['Duolong';'Einstein';'debye'],[2,5,3],opt=1)
+---------------------------------------------------------------------------------------------
+q2 
+clc
+clf
+clear
+x=linspace(1,1000,100)
+//Debye's law
+T_d=645 //K
+function f=g(x)
+f=((x**4)*(exp(x)))/((exp(x)-1)**2)
+endfunction
+for i=1:length(x)
+k1(i)=(T_d/x(i))
+k2(i)=integrate('g(x)','x',0,k1(i))
+k2(i)=3*(x(i)/T_d)**3*k2(i)
+end
+plot(x',k2)
+T_d=343
+for i=1:length(x)
+k1(i)=(T_d/x(i))
+k2(i)=integrate('g(x)','x',0,k1(i))
+k2(i)=3*(x(i)/T_d)**3*k2(i)
+end
+plot(x',k2,'r')
+T_d=105
+for i=1:length(x)
+k1(i)=(T_d/x(i))
+k2(i)=integrate('g(x)','x',0,k1(i))
+k2(i)=3*(x(i)/T_d)**3*k2(i)
+end
+plot(x',k2,'g')
+legends(['Si(645k)';'Cu(343k)';'Pb(105k)'],[2,5,3],opt=4)
+xlabel("T(K)-->")
+ylabel("Cv/3R-->")
+title("Debye law for different temp(k)")
+------------------------------------------------------------------------------------------------
+q3 table given cv/3r for diamond
+clc
+clf
+clear
+x=[222.4,262.4,283.7,306.4,331.3,358.5,413,479.2,520,879.7,1079.7,1258]
+y=[.1278,.1922,.2271,.2653,.3082,.3552,.4463,.5501,.6089,.8871,.9034,.9235]
+plot(x,y,'ro')
+//for Einstein
+x=linspace(5,1400,1000)
+T=[1300]
+for j=1:length(T)
+T_e=T(j)
+for i=1:length(x)
+y(i)= ((T_e/x(i))^2)*(exp(T_e/x(i))/((exp(T_e/x(i))-1)^2))
+end
+plot(x',y')
+xlabel("T(K)-->")
+ylabel("Cv/3R-->")
+title("Einstein fitting")
+end
+/*
+//for Debye
+T_d=1800 //K
+function f=g(x)
+f=((x**4)*(exp(x)))/((exp(x)-1)**2)
+endfunction
+for i=1:length(x)
+k1(i)=(T_d/x(i))
+k2(i)=integrate('g(x)','x',0,k1(i))
+k2(i)=3*(x(i)/T_d)**3*k2(i)
+end
+plot(x',k2,'g')
+title("Debye fitting")
