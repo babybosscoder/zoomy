@@ -1,0 +1,108 @@
+q1 (a and b) maxwell boltzmann speed
+//Maxwell velocity distribution
+//Q1
+clf
+clc
+clear
+funcprot(0)
+v=linspace(0,10000,10000)
+T=[300,500,800]//kelvin
+N=1000
+k=8.61*(10**(-5)) // ev/k
+m=.2*(10**(-7)) //ev/c^2
+c=['r','b','g','m']
+for j=1:length(T)
+const=(4*%pi*N)*(m/(2*%pi*k*T(j)))**(1.5)
+for i=1:length(v)
+y(i)=const*v(i)**2*exp((-m*v(i)**2)/(2*k*T(j)))
+end
+[a,b]=max(y)
+mp(j)=b
+plot(v',y,c(j))
+end
+xlabel("Velocity--->")
+ylabel("dN_v-->")
+title("Maxwell Boltzmann Velocity distribution")
+xgrid
+legend(["T=300K","T=400K","T=500K"])
+//computational
+//AVERAGE SPEED
+disp("V_avg_computational")
+for j=1:length(T)
+const=(4*%pi*N)*(m/(2*%pi*k*T(j)))**(1.5)
+function Avg=f(v)
+Avg = const*v**2*exp((-m*v**2)/(2*k*T(j)))
+endfunction
+I1=integrate('v*f(v)','v',0,8000)
+I2=integrate('f(v)','v',0,8000)
+disp(I1/I2)
+end
+//RMS SPEED
+disp("V_Rms_computational")
+for j=1:length(T)
+const=(4*%pi*N)*(m/(2*%pi*k*T(j)))**(1.5)
+function RMS=f(v)
+RMS = const*v**2*exp((-m*v**2)/(2*k*T(j)))
+endfunction
+I1=integrate('v**2*f(v)','v',0,8000)
+I2=integrate('f(v)','v',0,8000)
+disp((I1/I2)**(.5))
+end
+//disp(((8*k*300)/(%pi*m))**0.5)
+//Most probable velocity
+disp("V_mp_computational")
+disp(mp)
+----------------------------------------------------------------------------------
+q1 (c) histogram 
+clf
+clc
+clear
+v=linspace(0,10000,10000)
+T=[300,500,800]//kelvin
+N=1000
+k=8.61*(10**(-5)) // ev/k
+m=.2*(10**(-7)) //ev/c^2
+T=300
+function fun=f(v)
+fun = (4*3.14*N*(m/(2*3.14*k*T))**(1.5))*(v**2)*exp((-m*v**2)/(2*k*T))
+endfunction
+d=50
+for i=1:d
+x(1)=0
+x(i+1)=x(i)+130
+n(i)=integrate('f(v)','v',x(i),x(i+1))
+x(i)=x(i+1)
+end
+disp(sum(n))
+plot2d2(x(1:d),n)
+plot2d3(x(1:d),n)
+xlabel("Range--->")
+ylabel("Total no of particles(N)-->")
+title("Histogram for no.of molecules in a range")
+--------------------------------------------------------------------------------------------
+q2 max boltz for h2 and o2 in same 
+//Maxwell velocity distribution for H2
+clf
+clc
+clear
+funcprot(0)
+v=linspace(0,5000,10000)
+T=300//kelvin
+N=1000
+k=8.61*(10**(-5)) // ev/k
+m=[.2,3.312] //ev/c^2
+c=['r','b','g','m']
+for j=1:length(m)
+const=(4*%pi*N)*((m(j)*(10**(-7)))/(2*%pi*k*T))**(1.5)
+for i=1:length(v)
+y(i)=const*v(i)**2*exp((-(m(j)*(10**(-7)))*v(i)**2)/(2*k*T))
+end
+[a,b]=max(y)
+mp(j)=b
+plot(v',y,c(j))
+end
+xlabel("Velocity--->")
+ylabel("dN_v-->")
+title("Maxwell Boltzmann velocity distribution")
+xgrid
+legend(["FOR H2","FOR O2"])
